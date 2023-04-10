@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BeatBoxPRO</string>
+    <string name="progress">Progress: %d%%</string>
 </resources>

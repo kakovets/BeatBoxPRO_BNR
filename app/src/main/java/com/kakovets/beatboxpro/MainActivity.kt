@@ -3,6 +3,7 @@ package com.kakovets.beatboxpro
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,8 +23,22 @@ class MainActivity : AppCompatActivity() {
             layoutManager = GridLayoutManager(context, 3)
             adapter = SoundAdapter(beatBox.sounds)
         }
-    }
 
+        val seekBar = binding.seekBar
+        val textView = binding.textView
+        textView.text = getString(R.string.progress, seekBar.progress)
+
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                textView.text = getString(R.string.progress, progress)
+                beatBox.setRate(progress)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
+    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -41,7 +56,6 @@ class MainActivity : AppCompatActivity() {
                 executePendingBindings()
             }
         }
-
     }
 
     private inner class SoundAdapter(private val sounds: List<Sound>)
